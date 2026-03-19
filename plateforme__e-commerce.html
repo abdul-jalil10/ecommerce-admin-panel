@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Interactif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-slate-900 text-white hidden md:block">
+            <div class="p-6 text-2xl font-bold text-indigo-400 flex items-center gap-2">
+                <i data-lucide="zap"></i> JaShop
+            </div>
+            <nav class="mt-10 px-4 space-y-4">
+                <button onclick="navAlert('Dashboard')" class="w-full flex items-center gap-3 p-3 bg-indigo-600 rounded-lg text-white">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </button>
+                <button onclick="navAlert('Produits')" class="w-full flex items-center gap-3 p-3 text-gray-400 hover:text-white transition">
+                    <i data-lucide="package"></i> Produits
+                </button>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8">
+            <header class="flex justify-between items-center mb-10">
+                <h1 class="text-3xl font-extrabold text-gray-800">Gestion des Ventes</h1>
+                <button onclick="ajouterCommande()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full font-medium flex items-center gap-2 transition shadow-lg">
+                    <i data-lucide="plus-circle" class="w-5 h-5"></i> Simuler une Vente
+                </button>
+            </header>
+
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b bg-gray-50 font-bold text-gray-700">Flux des commandes en temps réel</div>
+                <table class="w-full text-left">
+                    <thead class="bg-gray-100 text-gray-500 text-xs uppercase italic">
+                        <tr>
+                            <th class="px-6 py-4">Client</th>
+                            <th class="px-6 py-4">Article</th>
+                            <th class="px-6 py-4">Prix</th>
+                            <th class="px-6 py-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-gray-100">
+                        <tr class="hover:bg-blue-50 transition">
+                            <td class="px-6 py-4 font-semibold">Alice Martin</td>
+                            <td class="px-6 py-4 text-gray-600">Montre Connectée</td>
+                            <td class="px-6 py-4 font-bold text-indigo-600">199 €</td>
+                            <td class="px-6 py-4 text-red-500 cursor-pointer" onclick="this.parentElement.remove()"><i data-lucide="trash-2"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialise les icônes
+        lucide.createIcons();
+
+        // Fonction pour simuler une navigation
+        function navAlert(page) {
+            alert("Vous avez cliqué sur : " + page + ". Dans un vrai site, cela chargerait la page " + page);
+        }
+
+        // Fonction pour ajouter une commande dynamiquement
+        function ajouterCommande() {
+            const clients = ["Noella Nikieima", "Jalil Triande", "Yasmine Sere", "Emma Leroy"];
+            const produits = ["iPhone 17", "Clavier Gamer", "Casque Audio", "Sac à dos"];
+            
+            const randomClient = clients[Math.floor(Math.random() * clients.length)];
+            const randomProduit = produits[Math.floor(Math.random() * produits.length)];
+            const randomPrix = Math.floor(Math.random() * 500) + 50;
+
+            const table = document.getElementById('table-body');
+            const newRow = document.createElement('tr');
+            newRow.className = "hover:bg-blue-50 transition animate-pulse";
+            newRow.innerHTML = `
+                <td class="px-6 py-4 font-semibold">${randomClient}</td>
+                <td class="px-6 py-4 text-gray-600">${randomProduit}</td>
+                <td class="px-6 py-4 font-bold text-indigo-600">${randomPrix} €</td>
+                <td class="px-6 py-4 text-red-500 cursor-pointer" onclick="this.parentElement.remove()"><i data-lucide="trash-2"></i></td>
+            `;
+            
+            table.prepend(newRow); // Ajoute en haut de la liste
+            lucide.createIcons(); // Recharge les icônes pour la nouvelle ligne
+        }
+    </script>
+</body>
+</html>
